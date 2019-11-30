@@ -1,0 +1,10 @@
+.venv
+.vscode
+db.sqlite3
+*.pyc
+__pycache__
+/dist
+/build
+*.egg-info
+.coverage
+.pytest_cache
