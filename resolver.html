@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resolver &#8212; graphene_resolver 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dynamic type" href="dynamic.html" />
+    <link rel="prev" title="Welcome to graphene_resolver’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="resolver">
+<h1>Resolver<a class="headerlink" href="#resolver" title="Permalink to this headline">¶</a></h1>
+<p>Allow create graphql schema with <a class="reference external" href="https://www.apollographql.com/docs/tutorial/resolvers/#what-is-a-resolver">apollo-like</a>
+resolver and and mongoose-like schema by using the <code class="docutils literal notranslate"><span class="pre">Resolver</span></code> class.</p>
+<p>Python docstring will not be used as field description, description should be defined in schema.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Mutation that returns a scalar type:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+
+<span class="k">class</span> <span class="nc">SomeMutation</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s1">&#39;String&#39;</span><span class="p">,</span>
+              <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s1">&#39;String&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s1">&#39;Int&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;created from `Resolver`.&quot;</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">({</span><span class="s2">&quot;kwargs&quot;</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="c1"># parent field</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="c1"># resolve info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="c1"># django request object</span>
+        <span class="k">return</span> <span class="mi">42</span>
+
+<span class="k">class</span> <span class="nc">Mutation</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">some_mutation</span> <span class="o">=</span> <span class="n">SomeMutation</span><span class="o">.</span><span class="n">as_field</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Mutation that returns a object type:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+
+<span class="k">class</span> <span class="nc">SomeMutation</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;ok&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s1">&#39;Int&#39;</span><span class="p">,</span>
+          <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;ok&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Mutation</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">some_mutation</span> <span class="o">=</span> <span class="n">SomeMutation</span><span class="o">.</span><span class="n">as_field</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Nested resolver:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+
+<span class="k">class</span> <span class="nc">FooResolver</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="s1">&#39;Int&#39;</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">({</span><span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">})</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">BarResolver</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="s1">&#39;Int&#39;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="n">FooResolver</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kwargs</span>
+
+<span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">nested_resolver</span> <span class="o">=</span> <span class="n">BarResolver</span><span class="o">.</span><span class="n">as_field</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Use gdl type name for built in type:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+
+<span class="k">class</span> <span class="nc">FooResolver</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="s1">&#39;Int!&#39;</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">42</span>
+</pre></div>
+</div>
+<p>Use enum:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+
+<span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="k">class</span> <span class="nc">EnumResolver</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">State</span><span class="p">,</span>
+                <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="kc">True</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">State</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Use field from django model(mainly for enum):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Task</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span>
+                            <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">choices</span><span class="o">=</span><span class="p">(</span>
+                                <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A state&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B state&#39;</span><span class="p">),</span>
+                            <span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">ModelFieldResolver</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">Task</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">Task</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>More complicated example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphene</span>
+<span class="kn">import</span> <span class="nn">graphene_resolver</span> <span class="k">as</span> <span class="nn">resolver</span>
+
+<span class="k">class</span> <span class="nc">ComplicatedResolver</span><span class="p">(</span><span class="n">resolver</span><span class="o">.</span><span class="n">Resolver</span><span class="p">):</span>
+    <span class="n">_input_schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s1">&#39;String&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s1">&#39;String&#39;</span><span class="p">,</span>
+                        <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;description&gt;&quot;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s1">&#39;Int&#39;</span><span class="p">,</span>
+                    <span class="s2">&quot;extra&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;String!&#39;</span><span class="p">],</span>
+                        <span class="s2">&quot;deprecation_reason&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;deprecated&gt;&quot;</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span>
+            <span class="p">},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="n">_input_schema</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">_input_schema</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deprecation_reason&quot;</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">Mutation</span><span class="p">(</span><span class="n">graphene</span><span class="o">.</span><span class="n">ObjectType</span><span class="p">):</span>
+    <span class="n">complicated_resolver</span> <span class="o">=</span> <span class="n">ComplicatedResolver</span><span class="o">.</span><span class="n">as_field</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">graphene_resolver</a></h1>
+
+
+
+<p class="blurb">Using mongoose-like schema to write apollo-like resolver.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=NateScarlet&repo=graphene-resolver&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Resolver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dynamic.html">Dynamic type</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connection.html">Connection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enum.html">Enum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="union.html">Union</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node.html">Node</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to graphene_resolver’s documentation!</a></li>
+      <li>Next: <a href="dynamic.html" title="next chapter">Dynamic type</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, NateScarlet.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/resolver.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
