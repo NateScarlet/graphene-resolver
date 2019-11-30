@@ -277,3 +277,18 @@ def test_lazy_resolve():
 ''')
     assert (str(result.errors) ==
             str([TypeError("'DummyIterable' object is not subscriptable")]))
+
+
+def test_keep_iterable():
+    class CustomList(list):
+        def hello(self):
+            return 'world'
+
+        def __getitem__(self, s: slice):
+            return CustomList(super().__getitem__(s))
+
+    iterable = CustomList([1, 2, 3, 4, 5])
+    result = resolver.connection.resolve(iterable, first=1,)
+    assert result['nodes'] == [1]
+    assert isinstance(result['nodes'], CustomList)
+    assert result['nodes'].hello() == 'world'
