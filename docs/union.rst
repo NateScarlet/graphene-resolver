@@ -2,7 +2,7 @@ Union
 ================
 
 
-Iterable in schema that length greater than 1 and not match :doc:`/Enum` definition
+Iterable in schema that length greater than 1 and not match :doc:`/enum` definition
 will be parsed as union type.
 
 Default name from current path and index.

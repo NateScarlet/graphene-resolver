@@ -5,7 +5,7 @@ description = "Using mongoose-like schema to write apollo-like resolver for grap
 authors = ["NateScarlet <NateScarlet@Gmail.com>"]
 readme = "README.md"
 repository = "https://github.com/NateScarlet/graphene-resolver"
-documentation = "https://github.com/NateScarlet/graphene-resolver/tree/master/docs"
+documentation = "https://natescarlet.github.io/graphene-resolver/"
 classifiers = [
     'Intended Audience :: Developers',
     'Topic :: Software Development :: Libraries :: Python Modules',

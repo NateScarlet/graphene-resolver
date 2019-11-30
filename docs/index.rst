@@ -15,6 +15,7 @@ Welcome to graphene_resolver's documentation!
   connection
   enum
   union
+  node
 
 
 Indices and tables
