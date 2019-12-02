@@ -355,16 +355,18 @@ class FieldDefinition:
             assert self.child_definition
 
             def _dynamic():
-                _types = [FieldDefinition.parse(i, default={'name': f'{namespace}{index}'}).as_type()
-                          for index, i in enumerate(self.child_definition)]
-                _types = [i() if callable(i) and not isinstance(i, type) else i
-                          for i in _types]
-                return type(namespace, (graphene.Union,), dict(
-                    Meta=dict(
-                        types=_types,
-                        description=self.description,
-                    )
-                ))
+                if namespace not in registry:
+                    _types = [FieldDefinition.parse(i, default={'name': f'{namespace}{index}'}).as_type()
+                              for index, i in enumerate(self.child_definition)]
+                    _types = [i() if callable(i) and not isinstance(i, type) else i
+                              for i in _types]
+                    registry[namespace] = type(namespace, (graphene.Union,), dict(
+                        Meta=dict(
+                            types=_types,
+                            description=self.description,
+                        )
+                    ))
+                return registry[namespace]
             ret = _dynamic
 
         # Unmounted type.

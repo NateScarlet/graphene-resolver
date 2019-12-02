@@ -42,7 +42,7 @@ def dynamic_type(type_: typing.Any, *, registry=None) -> typing.Callable:
         if isinstance(type_, str):
             type_ = registry[type_]
 
-        assert (isinstance(type_, type)), repr(type_)
+        assert (isinstance(type_, (type, typing.Callable))), repr(type_)
         return type_
 
     return functools.partial(type_fn, type_)
