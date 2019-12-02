@@ -26,3 +26,6 @@ You can returns any value with ``TYPENAME_PROCESSOR``:
           return {
             '__typename': 'CustomDictObjectType'
           }
+
+``resolve`` function of Union resolver only called when used when no parent field,
+parent resolver is responsible for return proper value.
