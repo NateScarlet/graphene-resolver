@@ -7,6 +7,7 @@ import typing
 
 import graphene
 
+from . import processor
 from . import types
 
 REGISTRY: typing.Dict[
@@ -24,6 +25,30 @@ REGISTRY: typing.Dict[
     'DateTime': graphene.DateTime,
     'Duration': types.Duration,
 }
+
+TYPENAME_PROCESSOR = processor.Processor()
+
+
+@TYPENAME_PROCESSOR.register(-1)
+def _resolve_type(value) -> dict:  # pylint:disable=unused-argument
+    return {
+        '__typename': None
+    }
+
+
+class Union(graphene.Union):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def resolve_type(cls, instance, info):
+        ret = super().resolve_type(instance, info)
+        if ret is not None:
+            return ret
+
+        if isinstance(instance, typing.Mapping) and '__typename' in instance:
+            return info.schema.get_type(instance['__typename']).graphene_type
+        return TYPENAME_PROCESSOR.process(value=instance)['__typename']
 
 
 def dynamic_type(type_: typing.Any, *, registry=None) -> typing.Callable:

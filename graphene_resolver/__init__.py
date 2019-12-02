@@ -4,3 +4,4 @@ __version__ = '0.1.1'
 from .resolver import Resolver
 from . import connection, typedef
 from .schema import CONFIG_PROCESSOR
+from .typedef import TYPENAME_PROCESSOR

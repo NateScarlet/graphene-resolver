@@ -360,7 +360,7 @@ class FieldDefinition:
                               for index, i in enumerate(self.child_definition)]
                     _types = [i() if callable(i) and not isinstance(i, type) else i
                               for i in _types]
-                    registry[namespace] = type(namespace, (graphene.Union,), dict(
+                    registry[namespace] = type(namespace, (typedef.Union,), dict(
                         Meta=dict(
                             types=_types,
                             description=self.description,
