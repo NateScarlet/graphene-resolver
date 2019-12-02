@@ -24,6 +24,7 @@ class Processor:
 
         def _decorator(func: typing.Callable) -> None:
             self._process_registry.append((weight, func))
+            self._process_registry.sort(key=lambda v: v[0], reverse=True)
         return _decorator
 
     def process(self, **kwargs) -> dict:
@@ -36,7 +37,7 @@ class Processor:
         Returns:
             dict: First return value.
         """
-        self._process_registry.sort(key=lambda v: v[0], reverse=True)
+
         for _, i in self._process_registry:
             ret = i(**kwargs)
             if ret is not None:
