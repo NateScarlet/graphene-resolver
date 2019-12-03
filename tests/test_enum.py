@@ -1,4 +1,4 @@
-
+# pylint:disable=missing-docstring,invalid-name,unused-variable
 
 import graphene
 
@@ -63,3 +63,37 @@ def test_description():
     assert enum_type.get_value('b').description == 'this is b'
     assert enum_type.get_value('c').value == 'c'
     assert enum_type.get_value('c').description is None
+
+
+def test_auto_register():
+
+    class Foo(resolver.Resolver):
+        schema = ('a', 'b')
+
+    class Bar(resolver.Resolver):
+        schema = {
+            'a': 'Foo'
+        }
+
+    class Query(graphene.ObjectType):
+        bar = Bar.as_field()
+
+    schema = graphene.Schema(query=Query)
+    assert str(schema) == '''\
+schema {
+  query: Query
+}
+
+type Bar {
+  a: Foo
+}
+
+enum Foo {
+  a
+  b
+}
+
+type Query {
+  bar: Bar
+}
+'''

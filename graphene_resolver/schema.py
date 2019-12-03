@@ -295,7 +295,6 @@ class FieldDefinition:
         options = self._get_options(
             graphene.Argument if is_input else graphene.Field)
         ret = None
-        # Mapping
         if self.type is SpecialType.MAPPING:
             assert self.child_definition
             _type: typing.Type = type(
@@ -320,7 +319,6 @@ class FieldDefinition:
                 })
             registry[namespace] = _type
             ret = _type
-        # Iterable
         elif self.type is SpecialType.LIST:
             assert self.child_definition
             _item_schema = self.parse(
@@ -351,6 +349,7 @@ class FieldDefinition:
                 _enum,
                 description=_get_description
             )
+            registry[namespace] = ret
         elif self.type is SpecialType.UNION:
             assert self.child_definition
 
@@ -369,7 +368,6 @@ class FieldDefinition:
                 return registry[namespace]
             ret = _dynamic
             registry[namespace] = ret
-
         # Unmounted type.
         elif (isinstance(self.type, type)
               and issubclass(self.type, graphene.types.unmountedtype.UnmountedType)):
