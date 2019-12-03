@@ -24,6 +24,7 @@ REGISTRY: typing.Dict[
     'Date': graphene.Date,
     'DateTime': graphene.DateTime,
     'Duration': types.Duration,
+    'Node': graphene.Node,
 }
 
 TYPENAME_PROCESSOR = processor.Processor()
