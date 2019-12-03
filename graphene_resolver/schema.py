@@ -207,7 +207,7 @@ class FieldDefinition:
                     .parse(
                         v,
                         default={
-                            'name': phrases_case.camel(f'{config["name"]}_{k}')
+                            'name': phrases_case.pascal(f'{config["name"]}_{k}')
                         })
                     .mount(as_=graphene.Argument))
                 for k, v in config['args'].items()
@@ -306,7 +306,7 @@ class FieldDefinition:
                         k: (self.parse(
                             v,
                             default={
-                                'name': phrases_case.camel(f'{namespace}_{k}')}
+                                'name': phrases_case.pascal(f'{namespace}_{k}')}
                         ).mount(as_=graphene.InputField if is_input else graphene.Field))
                         for k, v in self.child_definition.items()
                     },

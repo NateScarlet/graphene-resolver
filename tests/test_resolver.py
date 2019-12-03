@@ -131,6 +131,37 @@ def test_complicated():
         foo = Foo.as_field()
 
     schema = graphene.Schema(query=Query)
+    assert str(schema) == '''\
+schema {
+  query: Query
+}
+
+type Foo {
+  type: String
+  data: [FooData!]
+}
+
+type FooData {
+  key: String!
+  value: Int
+  extra: [String!] @deprecated(reason: "<deprecated>")
+}
+
+input FooInput {
+  type: String
+  data: [FooInputData!]
+}
+
+input FooInputData {
+  key: String!
+  value: Int
+  extra: [String!]
+}
+
+type Query {
+  foo(input: FooInput): Foo
+}
+'''
     result = schema.execute('''\
 {
     foo(input: {type: "type", data: [{key: "key", value: 42, extra: ["extra"]}]}){
