@@ -150,23 +150,43 @@ def resolve(
     Returns:
         dict: Connection data.
     """
-    if length is None:
-        length = len(iterable)
+    def _get_length():
+        if length is None:
+            return len(iterable)
+        return length
+    _len = lazy.Proxy(_get_length)
 
-    before_offset = arrayconnection.get_offset_with_default(before, length)
-    after_offset = arrayconnection.get_offset_with_default(after, -1)
-    start_offset = max(after_offset, -1) + 1
-    end_offset = min(before_offset, length)
-    if isinstance(first, int):
-        end_offset = min(end_offset, start_offset + first)
-    if isinstance(last, int):
-        start_offset = max(start_offset, end_offset - last)
+    after_index = arrayconnection.get_offset_with_default(after, -1) + 1
+    before_index = arrayconnection.get_offset_with_default(before, None)
 
-    nodes = lazy.Proxy(lambda: iterable[start_offset:end_offset])
+    def _get_start_index() -> typing.Optional[int]:
+        ret = after_index
+        if isinstance(last, int):
+            ret = max((_len
+                       if before_index is None
+                       else before_index) - last, ret)
+        return ret
+
+    def _get_end_index() -> typing.Optional[int]:
+        ret = before_index
+        if isinstance(first, int):
+            ret = (min(after_index + first, ret)
+                   if ret is not None
+                   else after_index + first)
+        return ret
+
+    start_index = lazy.Proxy(_get_start_index)
+    end_index = lazy.Proxy(_get_end_index)
+
+    def _get_nodes():
+        # Proxy object can not use as None index.
+        return iterable[start_index.__wrapped__:end_index.__wrapped__]
+
+    nodes = lazy.Proxy(_get_nodes)
     edges = lazy.Proxy(lambda: [
         dict(
             node=node,
-            cursor=arrayconnection.offset_to_cursor(start_offset + i)
+            cursor=arrayconnection.offset_to_cursor(start_index + i)
         )
         for i, node in enumerate(nodes)
     ])
@@ -175,12 +195,16 @@ def resolve(
         nodes=nodes,
         edges=edges,
         pageInfo=lazy.Proxy(lambda: dict(
-            start_cursor=edges[0]['cursor'] if edges else None,
-            end_cursor=edges[-1]['cursor'] if edges else None,
-            has_previous_page=isinstance(
-                last, int) and start_offset > (after_offset + 1 if after else 0),
-            has_next_page=isinstance(
-                first, int) and end_offset < (before_offset if before else length),
+            start_cursor=lazy.Proxy(
+                lambda: edges[0]['cursor'] if edges else None),
+            end_cursor=lazy.Proxy(
+                lambda: edges[-1]['cursor'] if edges else None),
+            has_previous_page=lazy.Proxy(lambda: isinstance(
+                last, int) and start_index > (after_index + 1 if after else 0)),
+            has_next_page=lazy.Proxy(
+                lambda: isinstance(first, int) and end_index < (
+                    before_index if before else _len)
+            ),
         )),
-        totalCount=length,
+        totalCount=_len,
     )
