@@ -164,8 +164,8 @@ def resolve(
         ret = after_index
         if isinstance(last, int):
             ret = max((_len
-                       if before_index is None
-                       else before_index) - last, ret)
+                       if end_index is None
+                       else end_index) - last, ret)
         return ret
 
     def _get_end_index() -> typing.Optional[int]:
