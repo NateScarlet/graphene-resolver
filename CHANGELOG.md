@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.2...v0.1.3) (2020-01-07)
+
+
+### Bug Fixes
+
+* use pascal case for auto type name ([ed80bdf](https://github.com/NateScarlet/graphene-resolver/commit/ed80bdf))
+
+
+### Features
+
+* add `Node` to default typedef registry ([c0da514](https://github.com/NateScarlet/graphene-resolver/commit/c0da514))
+* auto register enum type ([6d26b75](https://github.com/NateScarlet/graphene-resolver/commit/6d26b75))
+* lazy connection length resolve ([c5d4ccd](https://github.com/NateScarlet/graphene-resolver/commit/c5d4ccd))
+
 ### [0.1.2](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.1...v0.1.2) (2019-12-02)
 
 
