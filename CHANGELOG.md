@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.3...v0.1.4) (2020-01-07)
+
+
+### Bug Fixes
+
+* lazy connection resolve not work ([e6576b2](https://github.com/NateScarlet/graphene-resolver/commit/e6576b2))
+* lazy object proxy int can not be json encoded ([f31aeab](https://github.com/NateScarlet/graphene-resolver/commit/f31aeab))
+* use first and last same time as offset ([9ea0120](https://github.com/NateScarlet/graphene-resolver/commit/9ea0120))
+
 ### [0.1.3](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.2...v0.1.3) (2020-01-07)
 
 
