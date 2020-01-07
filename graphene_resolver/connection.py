@@ -192,20 +192,31 @@ def resolve(
         for i, node in enumerate(nodes)
     ])
 
+    def _get_start_cursor():
+        end = end_index.__wrapped__
+        start = start_index.__wrapped__
+        if end is not None and end <= start:
+            return None
+        return arrayconnection.offset_to_cursor(int(start))
+
+    def _get_end_cursor():
+        index = end_index.__wrapped__
+        if index is None:
+            index = int(_len.__wrapped__) - 1
+
+        return arrayconnection.offset_to_cursor(int(index))
+
     return dict(
         nodes=nodes,
         edges=edges,
         pageInfo=lazy.Proxy(lambda: dict(
-            start_cursor=lazy.Proxy(
-                lambda: edges[0]['cursor'] if edges else None),
-            end_cursor=lazy.Proxy(
-                lambda: edges[-1]['cursor'] if edges else None),
+            # XXX: lazy proxy not work for str and None.
+            start_cursor=_get_start_cursor(),
+            end_cursor=_get_end_cursor(),
             has_previous_page=lazy.Proxy(lambda: isinstance(
                 last, int) and start_index > (after_index + 1 if after else 0)),
-            has_next_page=lazy.Proxy(
-                lambda: isinstance(first, int) and end_index < (
-                    before_index if before else _len)
-            ),
+            has_next_page=lazy.Proxy(lambda: isinstance(first, int) and end_index < (
+                before_index if before else _len))
         )),
         totalCount=_len,
     )
