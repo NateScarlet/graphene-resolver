@@ -177,8 +177,7 @@ def resolve(
         if length is None:
             return len(iterable)
         return length
-    # lazy object proxy int can not be json encoded, let graphene convert it to int.
-    _len = lazy.Proxy(lambda: float(_get_length()))
+    _len = lazy.Proxy(_get_length)
 
     after_index = arrayconnection.get_offset_with_default(after, -1) + 1
     before_index = arrayconnection.get_offset_with_default(before, None)
@@ -220,14 +219,12 @@ def resolve(
         start = start_index.__wrapped__
         if end is not None and end <= start:
             return None
-        return arrayconnection.offset_to_cursor(int(start))
+        return arrayconnection.offset_to_cursor(start)
 
     def _get_end_cursor():
-        index = end_index.__wrapped__
-        if index is None:
-            index = int(_len.__wrapped__) - 1
-
-        return arrayconnection.offset_to_cursor(int(index))
+        if not edges:
+            return None
+        return edges[-1]['cursor']
 
     return dict(
         nodes=nodes,
