@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "graphene-resolver"
-version = "0.1.4"
+version = "0.1.5"
 description = "Using mongoose-like schema to write apollo-like resolver for graphene."
 authors = ["NateScarlet <NateScarlet@Gmail.com>"]
 readme = "README.md"

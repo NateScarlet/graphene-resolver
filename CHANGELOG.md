@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.4...v0.1.5) (2020-01-08)
+
+
+### Features
+
+* patch graphene default resolver for lazy proxy ([0e8154d](https://github.com/NateScarlet/graphene-resolver/commit/0e8154d))
+
 ### [0.1.4](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.3...v0.1.4) (2020-01-07)
 
 
