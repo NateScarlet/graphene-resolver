@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.5...v0.1.6) (2020-01-08)
+
+
+### Features
+
+* avoid compute connection length ([5142b23](https://github.com/NateScarlet/graphene-resolver/commit/5142b23))
+
 ### [0.1.5](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.4...v0.1.5) (2020-01-08)
 
 
