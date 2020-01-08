@@ -131,6 +131,12 @@ def get_type(
     return REGISTRY[name]
 
 
+def _get_lazy_wrapped(v):
+    if not isinstance(v, lazy.Proxy):
+        return v
+    return _get_lazy_wrapped(v.__wrapped__)
+
+
 def patch_lazy_default_resolver() -> None:
     """Patch graphene default resolver to support lazy object proxy.  """
 
@@ -138,14 +144,12 @@ def patch_lazy_default_resolver() -> None:
 
     def _lazy_patched_default_resolver(*args, **kwargs):
         ret = default_resolver(*args, **kwargs)
-        if isinstance(ret, lazy.Proxy):
-            ret = ret.__wrapped__
+        ret = _get_lazy_wrapped(ret)
         return ret
 
     if default_resolver.__name__ == _lazy_patched_default_resolver.__name__:
         # Already patched
         return
-
     graphene.types.resolver.set_default_resolver(
         _lazy_patched_default_resolver)
 
