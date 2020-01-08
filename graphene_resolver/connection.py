@@ -1,4 +1,5 @@
 """Relay compatible connection resolver.  """
+
 import re
 import typing
 
@@ -130,6 +131,28 @@ def get_type(
     return REGISTRY[name]
 
 
+def patch_lazy_default_resolver() -> None:
+    """Patch graphene default resolver to support lazy object proxy.  """
+
+    default_resolver = graphene.types.resolver.get_default_resolver()
+
+    def _lazy_patched_default_resolver(*args, **kwargs):
+        ret = default_resolver(*args, **kwargs)
+        if isinstance(ret, lazy.Proxy):
+            ret = ret.__wrapped__
+        return ret
+
+    if default_resolver.__name__ == _lazy_patched_default_resolver.__name__:
+        # Already patched
+        return
+
+    graphene.types.resolver.set_default_resolver(
+        _lazy_patched_default_resolver)
+
+
+patch_lazy_default_resolver()
+
+
 def resolve(
         iterable,
         length: int = None,
@@ -209,14 +232,13 @@ def resolve(
     return dict(
         nodes=nodes,
         edges=edges,
-        pageInfo=lazy.Proxy(lambda: dict(
-            # XXX: lazy proxy not work for str and None.
-            start_cursor=_get_start_cursor(),
-            end_cursor=_get_end_cursor(),
+        pageInfo=dict(
+            start_cursor=lazy.Proxy(_get_start_cursor),
+            end_cursor=lazy.Proxy(_get_end_cursor),
             has_previous_page=lazy.Proxy(lambda: isinstance(
                 last, int) and start_index > (after_index + 1 if after else 0)),
             has_next_page=lazy.Proxy(lambda: isinstance(first, int) and end_index < (
                 before_index if before else _len))
-        )),
+        ),
         totalCount=_len,
     )

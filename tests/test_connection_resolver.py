@@ -2,6 +2,7 @@
 import graphene
 
 import graphene_resolver as resolver
+import json
 
 
 def test_simple():
@@ -77,6 +78,7 @@ type Query {
 }
 ''')
     assert not result.errors
+    json.dumps(result.data)  # ensure no lazy proxy result
     assert result.data == {
         "items": {
             "nodes": [{"name": "a"}, {"name": "b"}],
@@ -275,8 +277,8 @@ def test_lazy_resolve():
     }
 }
 ''')
-    assert (str(result.errors) ==
-            str([TypeError("'DummyIterable' object is not subscriptable")]))
+    assert str(
+        result.errors) == '[GraphQLLocatedError("\'DummyIterable\' object is not subscriptable")]'
 
 
 def test_keep_iterable():
