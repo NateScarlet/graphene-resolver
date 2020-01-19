@@ -1,7 +1,6 @@
 # -*- coding=UTF-8 -*-
 """Apollo-like resolver.  """
 
-from __future__ import annotations
 import typing
 
 import graphene
@@ -23,7 +22,8 @@ class Resolver:
 
     _field: typing.Optional[graphene.Field] = None
     _schema: schema_.FieldDefinition
-    _type: typing.Optional[graphene.Scalar | graphene.ObjectType] = None
+    _type: typing.Optional[typing.Union[graphene.Scalar,
+                                        graphene.ObjectType]] = None
     _as_interface: typing.Optional[typing.Type[graphene.Interface]] = None
 
     def __init_subclass__(cls):

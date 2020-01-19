@@ -2,7 +2,6 @@
 """Mongoose-like schema.  """
 # pylint:disable=unused-import
 
-from __future__ import annotations
 import dataclasses
 import enum
 import typing
@@ -135,7 +134,7 @@ class EnumFieldDefinition:
     description: typing.Optional[str]
 
     @classmethod
-    def parse(cls, v) -> EnumFieldDefinition:
+    def parse(cls, v) -> 'EnumFieldDefinition':
         """Parse schema for enum
 
         Args:
@@ -171,7 +170,7 @@ class FieldDefinition:
     child_definition: typing.Any
 
     @classmethod
-    def parse(cls, v: typing.Any, *, default: typing.Dict = None) -> FieldDefinition:
+    def parse(cls, v: typing.Any, *, default: typing.Dict = None) -> 'FieldDefinition':
         """Parse a mongoose like schema
 
         Args:

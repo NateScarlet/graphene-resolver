@@ -277,8 +277,9 @@ def test_lazy_resolve():
     }
 }
 ''')
-    assert str(
-        result.errors) == '[GraphQLLocatedError("\'DummyIterable\' object is not subscriptable")]'
+    assert len(result.errors) == 1
+    assert "\'DummyIterable\' object is not subscriptable" in str(
+        result.errors[0])
 
 
 def test_keep_iterable():

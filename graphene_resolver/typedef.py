@@ -1,7 +1,6 @@
 # -*- coding=UTF-8 -*-
 """Mongoose-like schema.  """
 
-from __future__ import annotations
 import functools
 import typing
 

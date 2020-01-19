@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "graphene-resolver"
-version = "0.1.6"
+version = "0.1.7"
 description = "Using mongoose-like schema to write apollo-like resolver for graphene."
 authors = ["NateScarlet <NateScarlet@Gmail.com>"]
 readme = "README.md"
@@ -12,11 +12,12 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 graphene = "^2.1"
 isodate = "^0.6"
 lazy-object-proxy = "^1.4"
 phrases-case = "^0.1.1"
+dataclasses = {version="~0.7", python = "~3.6"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
