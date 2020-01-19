@@ -4,7 +4,7 @@
 [![version](https://img.shields.io/pypi/v/graphene-resolver)](https://pypi.org/project/graphene-resolver/)
 ![python version](https://img.shields.io/pypi/pyversions/graphene-resolver)
 ![wheel](https://img.shields.io/pypi/wheel/graphene-resolver)
-![maintenance](https://img.shields.io/maintenance/yes/2019)
+![maintenance](https://img.shields.io/maintenance/yes/2020)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Using mongoose-like schema to write apollo-like resolver.
