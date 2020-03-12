@@ -26,9 +26,12 @@ class Resolver:
                                         graphene.ObjectType]] = None
     _as_interface: typing.Optional[typing.Type[graphene.Interface]] = None
 
-    def __init_subclass__(cls):
+    def __init_subclass__(cls, abstract=False, **kwargs):
+        if abstract:
+            return
         cls._parse_schema(default={'name': cls.__name__})
         cls.as_type()
+        super().__init_subclass__(**kwargs)
 
     def __init__(
             self,
