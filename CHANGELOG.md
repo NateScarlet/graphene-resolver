@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.8...v0.1.9) (2020-03-12)
+
+
+### Features
+
+* support abstract resolver ([f0f72dd](https://github.com/NateScarlet/graphene-resolver/commit/f0f72dd))
+
 ### [0.1.8](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.7...v0.1.8) (2020-01-19)
 
 
