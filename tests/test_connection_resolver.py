@@ -1,8 +1,9 @@
 # pylint:disable=missing-docstring,invalid-name,unused-variable
+import json
+
 import graphene
 
 import graphene_resolver as resolver
-import json
 
 
 def test_simple():
@@ -295,3 +296,63 @@ def test_keep_iterable():
     assert result['nodes'] == [1]
     assert isinstance(result['nodes'], CustomList)
     assert result['nodes'].hello() == 'world'
+
+
+def test_empty_with_first():
+    class Item(resolver.Resolver):
+        schema = {'name': 'String!'}
+
+    class Items(resolver.Resolver):
+        schema = resolver.connection.get_type(Item)
+
+        def resolve(self, **kwargs):
+            return resolver.connection.resolve([], **kwargs)
+
+    class Query(graphene.ObjectType):
+        items = Items.as_field()
+
+    assert isinstance(Query.items, graphene.Field)
+    assert isinstance(Query.items.type, type)
+    assert issubclass(Query.items.type, graphene.ObjectType)
+
+    schema = graphene.Schema(query=Query)
+    result = schema.execute('''\
+{
+    items(first: 1){
+        nodes{
+            name
+        }
+    }
+}
+''',)
+    assert not result.errors
+
+
+def test_empty_with_last():
+    class Item(resolver.Resolver):
+        schema = {'name': 'String!'}
+
+    class Items(resolver.Resolver):
+        schema = resolver.connection.get_type(Item)
+
+        def resolve(self, **kwargs):
+            return resolver.connection.resolve([], **kwargs)
+
+    class Query(graphene.ObjectType):
+        items = Items.as_field()
+
+    assert isinstance(Query.items, graphene.Field)
+    assert isinstance(Query.items.type, type)
+    assert issubclass(Query.items.type, graphene.ObjectType)
+
+    schema = graphene.Schema(query=Query)
+    result = schema.execute('''\
+{
+    items(last: 1){
+        nodes{
+            name
+        }
+    }
+}
+''',)
+    assert not result.errors

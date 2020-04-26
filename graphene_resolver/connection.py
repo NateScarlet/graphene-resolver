@@ -4,8 +4,8 @@ import re
 import typing
 
 import graphene
-from graphql_relay.connection import arrayconnection
 import lazy_object_proxy as lazy
+from graphql_relay.connection import arrayconnection
 
 from . import resolver
 from . import schema as schema_
@@ -189,9 +189,10 @@ def resolve(
     def _get_start_index() -> typing.Optional[int]:
         ret = after_index
         if isinstance(last, int):
+            _end_index_value = end_index.__wrapped__
             ret = max((_len
-                       if end_index is None
-                       else end_index) - last, ret)
+                       if _end_index_value is None
+                       else _end_index_value) - last, ret)
         return ret
 
     def _get_end_index() -> typing.Optional[int]:
