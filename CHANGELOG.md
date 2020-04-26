@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.9...v0.1.10) (2020-04-26)
+
+
+### Bug Fixes
+
+* connection last with empty iterable ([6cb3ac9](https://github.com/NateScarlet/graphene-resolver/commit/6cb3ac992994000731f924009bb3794006dd3fda))
+
 ### [0.1.9](https://github.com/NateScarlet/graphene-resolver/compare/v0.1.8...v0.1.9) (2020-03-12)
 
 
