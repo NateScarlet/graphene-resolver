@@ -74,7 +74,7 @@ toml = ["toml"]
 
 [[package]]
 name = "dataclasses"
-version = "0.7"
+version = "0.8"
 description = "A backport of the dataclasses module for Python 3.6"
 category = "main"
 optional = false
@@ -386,7 +386,7 @@ testing = ["pathlib2", "contextlib2", "unittest2"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "137c0c81ee0ccfc3dd9b073a17b545adc5a6ab229d86abf53b4a3eee3dc5c45d"
+content-hash = "2340d15a86ae3c4aa484c6bf0e6186033d81a5aca198d040936154f9f4104c05"
 
 [metadata.files]
 aniso8601 = [
@@ -446,8 +446,8 @@ coverage = [
     {file = "coverage-5.0.3.tar.gz", hash = "sha256:77afca04240c40450c331fa796b3eab6f1e15c5ecf8bf2b8bee9706cd5452fef"},
 ]
 dataclasses = [
-    {file = "dataclasses-0.7-py3-none-any.whl", hash = "sha256:3459118f7ede7c8bea0fe795bff7c6c2ce287d01dd226202f7c9ebc0610a7836"},
-    {file = "dataclasses-0.7.tar.gz", hash = "sha256:494a6dcae3b8bcf80848eea2ef64c0cc5cd307ffc263e17cdf42f3e5420808e6"},
+    {file = "dataclasses-0.8-py3-none-any.whl", hash = "sha256:0201d89fa866f68c8ebd9d08ee6ff50c0b255f8ec63a71c16fda7af82bb887bf"},
+    {file = "dataclasses-0.8.tar.gz", hash = "sha256:8479067f342acf957dc82ec415d355ab5edb7e7646b90dc6e2fd1d96ad084c97"},
 ]
 graphene = [
     {file = "graphene-2.1.8-py2.py3-none-any.whl", hash = "sha256:09165f03e1591b76bf57b133482db9be6dac72c74b0a628d3c93182af9c5a896"},
