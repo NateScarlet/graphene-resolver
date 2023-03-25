@@ -13,7 +13,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-graphene = "^2.1"
+graphene = "^3.0.0"
 isodate = "^0.6"
 lazy-object-proxy = "^1.4"
 phrases-case = "^0.1.1"
