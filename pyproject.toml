@@ -21,7 +21,7 @@ dataclasses = {version="~0.8", python = "~3.6"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
-pytest-cov = "^2.8"
+pytest-cov = "^5.0.0"
 autopep8 = "^1.4"
 rope = "^0.23"
 pylint = "^2.4"
