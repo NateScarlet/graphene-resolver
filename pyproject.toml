@@ -14,7 +14,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.6"
 graphene = "^2.1"
-isodate = "^0.6"
+isodate = "^0.7.0"
 lazy-object-proxy = "^1.4"
 phrases-case = "^0.1.1"
 dataclasses = {version="~0.8", python = "~3.6"}
