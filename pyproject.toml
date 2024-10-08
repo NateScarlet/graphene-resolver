@@ -23,7 +23,7 @@ dataclasses = {version="~0.8", python = "~3.6"}
 pytest = "^5.2"
 pytest-cov = "^2.8"
 autopep8 = "^1.4"
-rope = "^0.23"
+rope = "^1.0.0"
 pylint = "^2.4"
 
 [build-system]

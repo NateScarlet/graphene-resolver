@@ -527,14 +527,14 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtuale
 
 [[package]]
 name = "rope"
-version = "0.23.0"
+version = "1.1.1"
 description = "a python refactoring library..."
 category = "dev"
 optional = false
-python-versions = "*"
+python-versions = ">=3"
 files = [
-    {file = "rope-0.23.0-py3-none-any.whl", hash = "sha256:edf2ed3c9b35a8814752ffd3ea55b293c791e5087e252461de898e953cf9c146"},
-    {file = "rope-0.23.0.tar.gz", hash = "sha256:f87662c565086d660fc855cc07f37820267876634c3e9e51bddb32ff51547268"},
+    {file = "rope-1.1.1-py3-none-any.whl", hash = "sha256:216390b6342bde8ef1f27a6663554de0ea0b1fdad7c421deb3d5a3f6c5fc01e7"},
+    {file = "rope-1.1.1.tar.gz", hash = "sha256:13048ff0245a0fa187f282697a55add46e4ccf083e7670f868bdf54ee9e47f2e"},
 ]
 
 [package.extras]
@@ -689,4 +689,4 @@ testing = ["contextlib2", "pathlib2", "unittest2"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.6"
-content-hash = "5bb62d2920afdc84dca05849e86a1cfc2ab0a41a762df171b6c38bb43a70267e"
+content-hash = "6276794892560ae9a6150479bd9ab04cc1a170036488754b2aa0d96dca511a48"
